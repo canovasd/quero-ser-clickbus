@@ -1,7 +1,7 @@
 package com.click.bus.clickbus.controller;
 
 import com.click.bus.clickbus.domain.Place;
-import com.click.bus.clickbus.service.PlaceRegistryService;
+import com.click.bus.clickbus.service.PlacesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -17,7 +17,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 public class PlaceRestController {
 
     @Autowired
-    private PlaceRegistryService regService;
+    private PlacesService regService;
 
     @PostMapping()
     public ResponseEntity postPlace(@RequestParam @Nullable String name,

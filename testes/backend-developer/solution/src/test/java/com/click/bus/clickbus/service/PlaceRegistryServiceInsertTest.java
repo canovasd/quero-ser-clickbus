@@ -21,7 +21,7 @@ class PlaceRegistryServiceInsertTest {
 
     private static final String STATE = "State";
 
-    private static PlaceRegistryService registryService;
+    private static PlacesService registryService;
 
     private static PlaceRepository repo;
 
@@ -30,7 +30,7 @@ class PlaceRegistryServiceInsertTest {
     @BeforeAll
     public static void setup() {
         // given
-        registryService = new PlaceRegistryService();
+        registryService = new PlacesService();
         repo = Mockito.mock(PlaceRepository.class);
         registryService.setRepo(repo);
 

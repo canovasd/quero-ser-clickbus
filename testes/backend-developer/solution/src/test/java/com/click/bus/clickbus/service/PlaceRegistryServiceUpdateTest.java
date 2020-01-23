@@ -21,7 +21,7 @@ public class PlaceRegistryServiceUpdateTest {
 
     private static final String NEW_STATE = "AnotherState";
 
-    private static PlaceRegistryService registryService;
+    private static PlacesService registryService;
 
     private static PlaceRepository repo;
 
@@ -31,7 +31,7 @@ public class PlaceRegistryServiceUpdateTest {
     public static void setup() {
 
         // given
-        registryService = new PlaceRegistryService();
+        registryService = new PlacesService();
         repo = Mockito.mock(PlaceRepository.class);
         registryService.setRepo(repo);
 

@@ -13,10 +13,7 @@ import java.util.Optional;
 import static org.springframework.util.StringUtils.isEmpty;
 
 @Service
-public class PlaceRegistryService {
-
-    @Autowired
-    private PlaceFilterService placeFilter;
+public class PlacesService {
 
     @Autowired
     private PlaceRepository repo;
@@ -49,7 +46,17 @@ public class PlaceRegistryService {
         if (isEmpty(filter)) {
             return places;
         }
-        return this.placeFilter.filterBy(filter, places);
+        return this.filterBy(filter, places);
+    }
+
+    public List<Place> filterBy(String filter, List<Place> places) {
+        List filteredList = new ArrayList();
+        for (Place place : places) {
+            if (place.getName().contains(filter)) {
+                filteredList.add(place);
+            }
+        }
+        return filteredList;
     }
 
     public Place getPlace(String name) {
