@@ -1,16 +1,20 @@
-package com.click.bus.clickbus.actor;
+package com.click.bus.clickbus.service;
 
-import com.click.bus.clickbus.domain.InMemoryDatabase;
+import com.click.bus.clickbus.repository.InMemoryDatabase;
 import com.click.bus.clickbus.domain.Place;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlaceFilter {
+@Service
+public class PlaceFilterService {
 
+    @Autowired
     private InMemoryDatabase db;
 
-    public PlaceFilter(InMemoryDatabase db) {
+    public PlaceFilterService(InMemoryDatabase db) {
         this.db = db;
     }
 

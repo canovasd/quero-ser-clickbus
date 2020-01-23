@@ -14,7 +14,7 @@ In order to run the application, execute the Main Java class located at **projec
 
 **host** = <https://canovasclickbusjava.herokuapp.com>    if you're using the test environment available at Heroku
 
-To insert a Place, make a Post request to **host8:/places/register
+To insert a Place, make a Post request to **host**:/places/
 
 The parameters are:
 
@@ -29,7 +29,7 @@ If you want to update a specific place, just post the information again while fo
 
 ## Searching
 
-To see all the places registered, you can access the URL **host**/places/list
+To see all the places registered, you can access the URL **host**/places/
 
 
 Alternatively, it is possible to filter the result by name:
@@ -39,4 +39,4 @@ Alternatively, it is possible to filter the result by name:
 
 To retrieve information of a specific place, do a GET request to:
 
-**host**/places/**exact place name**
+**host**/places/id/**exact place name**

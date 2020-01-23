@@ -1,14 +1,13 @@
-package com.click.bus.clickbus.rest;
+package com.click.bus.clickbus.controller;
 
-import com.click.bus.clickbus.actor.PlaceFilter;
-import com.click.bus.clickbus.actor.PlaceRegistrer;
-import com.click.bus.clickbus.domain.InMemoryDatabase;
 import com.click.bus.clickbus.domain.Place;
-import org.springframework.http.HttpStatus;
+import com.click.bus.clickbus.service.PlaceFilterService;
+import com.click.bus.clickbus.service.PlaceRegistryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.Collection;
 
 import static org.springframework.http.HttpStatus.CREATED;
@@ -18,33 +17,32 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @RequestMapping("places")
 public class PlaceRestController {
 
-    @Resource
-    private InMemoryDatabase db;
+    @Autowired
+    private PlaceFilterService placeFilter;
 
-    @Resource
-    private PlaceRegistrer registrer;
+    @Autowired
+    private PlaceRegistryService regService;
 
-    @PostMapping("/register")
-    public ResponseEntity postPlace(@RequestParam String name,
+    @PostMapping("/")
+    public ResponseEntity postPlace(@RequestParam @Nullable String name,
                                     @RequestParam(required = false) String slug,
                                     @RequestParam(required = false) String city,
                                     @RequestParam(required = false) String state) {
-        this.registrer.insertOrUpdate(name, slug, city, state);
+        this.regService.insertOrUpdate(name, slug, city, state);
         return new ResponseEntity(CREATED);
     }
 
-    @GetMapping(value = "/list", produces = "application/json")
+    @GetMapping(value = "/", produces = "application/json")
     public Collection<Place> listPlaces(@RequestParam(required = false) String filter) {
         if (filter != null) {
-            PlaceFilter placeFilter = new PlaceFilter(this.db);
             return placeFilter.filterBy(filter);
         }
-        return this.db.getPlaces();
+        return this.regService.getPlaces();
     }
 
-    @RequestMapping(path = "/place/{name}", produces = "application/json", method = GET)
+    @RequestMapping(path = "/id/{name}", produces = "application/json", method = GET)
     public Place getPlace(@PathVariable String name) {
-        return this.db.getPlace(name);
+        return this.regService.getPlace(name);
     }
 
 }

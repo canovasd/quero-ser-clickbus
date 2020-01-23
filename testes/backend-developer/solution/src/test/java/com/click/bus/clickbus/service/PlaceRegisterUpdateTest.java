@@ -1,6 +1,6 @@
-package com.click.bus.clickbus.actor;
+package com.click.bus.clickbus.service;
 
-import com.click.bus.clickbus.domain.InMemoryDatabase;
+import com.click.bus.clickbus.repository.InMemoryDatabase;
 import com.click.bus.clickbus.domain.Place;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -8,57 +8,59 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class PlaceRegistrerInsertTest {
+public class PlaceRegisterUpdateTest {
+
 
     private static final String NAME = "Name";
 
-    private static final String SLUG = "Slug";
+    private static final String NEW_SLUG = "AnotherSlug";
 
-    private static final String CITY = "City";
+    private static final String NEW_CITY = "AnotherCity";
 
-    private static final String STATE = "State";
+    private static final String NEW_STATE = "AnotherState";
 
-    private static PlaceRegistrer registrer;
+    private static PlaceRegistryService registrer;
 
     private static InMemoryDatabase db;
 
     @BeforeAll
     public static void setup() {
         // given
-        registrer = new PlaceRegistrer();
+        registrer = new PlaceRegistryService();
         db = new InMemoryDatabase();
         registrer.setDb(db);
 
         // when
-        registrer.insertOrUpdate(NAME, SLUG, CITY, STATE);
+        registrer.insertOrUpdate(NAME, "Slug", "City", "State");
+        registrer.insertOrUpdate(NAME, NEW_SLUG, NEW_CITY, NEW_STATE);
     }
 
     @Test
-    public void correctName() {
+    public void sameName() {
         //then
         Place place = db.getPlaces().iterator().next();
         assertEquals(NAME, place.getName());
     }
 
     @Test
-    public void correctSlug() {
+    public void updatedSlug() {
         //then
         Place place = db.getPlaces().iterator().next();
-        assertEquals(SLUG, place.getSlug());
+        assertEquals(NEW_SLUG, place.getSlug());
     }
 
     @Test
-    public void correctCity() {
+    public void updatedCity() {
         //then
         Place place = db.getPlaces().iterator().next();
-        assertEquals(CITY, place.getCity());
+        assertEquals(NEW_CITY, place.getCity());
     }
 
     @Test
-    public void correctState() {
+    public void updatedState() {
         //then
         Place place = db.getPlaces().iterator().next();
-        assertEquals(STATE, place.getState());
+        assertEquals(NEW_STATE, place.getState());
     }
 
     @Test
@@ -68,19 +70,10 @@ class PlaceRegistrerInsertTest {
         assertNotNull(place.getCreatedAt());
     }
 
-    public void update() {
-        //when
-        registrer.insertOrUpdate("Name", "AnotherSlug", "AnotherCity", "AnotherState");
-
+    @Test
+    public void updatedAtSetted() {
         //then
         Place place = db.getPlaces().iterator().next();
-
-        assertEquals("Name", place.getName());
-        assertEquals("AnotherSlug", place.getSlug());
-        assertEquals("AnotherCity", place.getCity());
-        assertEquals("AnotherState", place.getState());
-
-        assertNotNull(place.getCity());
         assertNotNull(place.getUpdatedAt());
     }
 

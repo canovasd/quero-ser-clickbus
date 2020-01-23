@@ -1,12 +1,14 @@
-package com.click.bus.clickbus.domain;
+package com.click.bus.clickbus.repository;
 
+import com.click.bus.clickbus.domain.Place;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-@Component
+@Repository
 public class InMemoryDatabase {
 
     private Map<String, Place> places = new HashMap<>();

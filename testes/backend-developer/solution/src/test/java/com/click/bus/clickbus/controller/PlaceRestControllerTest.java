@@ -1,4 +1,4 @@
-package com.click.bus.clickbus.rest;
+package com.click.bus.clickbus.controller;
 
 import com.click.bus.clickbus.ClickbusApplication;
 import com.click.bus.clickbus.domain.Place;
@@ -42,7 +42,7 @@ public class PlaceRestControllerTest {
 
     @Test
     public void createPlace() throws Exception {
-        String uri = "/places/register";
+        String uri = "/places/";
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(uri)
                 .param("name", PLACE_NAME)
                 .param("city", CITY_NAME)
@@ -56,7 +56,7 @@ public class PlaceRestControllerTest {
     public void getPlaceList() throws Exception {
         this.createPlace();
 
-        String uri = "/places/list";
+        String uri = "/places/";
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
                 .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 
@@ -72,7 +72,7 @@ public class PlaceRestControllerTest {
     public void getExactPlace() throws Exception {
         this.createPlace();
 
-        String uri = "/places/place/" + PLACE_NAME;
+        String uri = "/places/id/" + PLACE_NAME;
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
                 .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
 

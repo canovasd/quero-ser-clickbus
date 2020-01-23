@@ -1,16 +1,17 @@
-package com.click.bus.clickbus.actor;
+package com.click.bus.clickbus.service;
 
-import com.click.bus.clickbus.domain.InMemoryDatabase;
+import com.click.bus.clickbus.repository.InMemoryDatabase;
 import com.click.bus.clickbus.domain.Place;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import java.util.Collection;
 import java.util.Date;
 
-@Component
-public class PlaceRegistrer {
+@Service
+public class PlaceRegistryService {
 
-    @Resource
+    @Autowired
     private InMemoryDatabase db;
 
     public void insertOrUpdate(String name, String slug, String city, String state) {
@@ -31,6 +32,14 @@ public class PlaceRegistrer {
             place.setCreatedAt(new Date());
         }
         this.db.addOrReplace(place);
+    }
+
+    public Collection<Place> getPlaces() {
+        return this.db.getPlaces();
+    }
+
+    public Place getPlace(String name) {
+        return this.db.getPlace(name);
     }
 
     public InMemoryDatabase getDb() {
