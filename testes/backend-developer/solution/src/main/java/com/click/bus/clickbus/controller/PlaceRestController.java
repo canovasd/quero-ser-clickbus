@@ -1,7 +1,6 @@
 package com.click.bus.clickbus.controller;
 
 import com.click.bus.clickbus.domain.Place;
-import com.click.bus.clickbus.service.PlaceFilterService;
 import com.click.bus.clickbus.service.PlaceRegistryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +17,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 public class PlaceRestController {
 
     @Autowired
-    private PlaceFilterService placeFilter;
-
-    @Autowired
     private PlaceRegistryService regService;
 
     @PostMapping("/")
@@ -34,14 +30,11 @@ public class PlaceRestController {
 
     @GetMapping(value = "/", produces = "application/json")
     public Collection<Place> listPlaces(@RequestParam(required = false) String filter) {
-        if (filter != null) {
-            return placeFilter.filterBy(filter);
-        }
-        return this.regService.getPlaces();
+        return this.regService.getPlaces(filter);
     }
 
     @RequestMapping(path = "/id/{name}", produces = "application/json", method = GET)
-    public Place getPlace(@PathVariable String name) {
+    public Place getPlace(@PathVariable() String name) {
         return this.regService.getPlace(name);
     }
 
