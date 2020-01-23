@@ -34,7 +34,7 @@ To see all the places registered, you can access the URL **host**/places/
 
 Alternatively, it is possible to filter the result by name:
 
-**host**/places/list?filter=**part of the name**
+**host**/places?filter=**part of the name**
 
 
 To retrieve information of a specific place, do a GET request to:

@@ -19,7 +19,7 @@ public class PlaceRestController {
     @Autowired
     private PlaceRegistryService regService;
 
-    @PostMapping("/")
+    @PostMapping()
     public ResponseEntity postPlace(@RequestParam @Nullable String name,
                                     @RequestParam(required = false) String slug,
                                     @RequestParam(required = false) String city,
@@ -28,7 +28,7 @@ public class PlaceRestController {
         return new ResponseEntity(CREATED);
     }
 
-    @GetMapping(value = "/", produces = "application/json")
+    @GetMapping(produces = "application/json")
     public Collection<Place> listPlaces(@RequestParam(required = false) String filter) {
         return this.regService.getPlaces(filter);
     }

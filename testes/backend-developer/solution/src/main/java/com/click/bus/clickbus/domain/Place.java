@@ -1,10 +1,13 @@
 package com.click.bus.clickbus.domain;
 
-import java.io.Serializable;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.Date;
 
-public class Place implements Serializable {
+@Entity
+public class Place {
 
+    @Id
     private String name;
 
     private String slug;

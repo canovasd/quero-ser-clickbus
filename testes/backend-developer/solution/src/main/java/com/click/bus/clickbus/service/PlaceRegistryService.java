@@ -1,13 +1,14 @@
 package com.click.bus.clickbus.service;
 
-import com.click.bus.clickbus.repository.InMemoryDatabase;
 import com.click.bus.clickbus.domain.Place;
+import com.click.bus.clickbus.repository.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.util.StringUtils.isEmpty;
 
@@ -18,44 +19,48 @@ public class PlaceRegistryService {
     private PlaceFilterService placeFilter;
 
     @Autowired
-    private InMemoryDatabase db;
+    private PlaceRepository repo;
 
-    public void insertOrUpdate(String name, String slug, String city, String state) {
+    public Place insertOrUpdate(String name, String slug, String city, String state) {
         Place place = new Place();
         place.setName(name);
         place.setSlug(slug);
         place.setCity(city);
         place.setState(state);
         insertOrUpdate(place);
+        return place;
     }
 
     private void insertOrUpdate(Place place) {
         String name = place.getName();
-        if (this.db.contains(name)) {
+        Optional<Place> opt = this.repo.findById(name);
+        if (opt.isPresent()) {
             place.setUpdatedAt(new Date());
-            place.setCreatedAt(this.db.getPlace(name).getCreatedAt());
+            place.setCreatedAt(opt.get().getCreatedAt());
         } else {
             place.setCreatedAt(new Date());
         }
-        this.db.addOrReplace(place);
+        this.repo.save(place);
     }
 
-    public Collection<Place> getPlaces(String filter) {
-        if(isEmpty(filter)) {
-            return this.db.getPlaces();
+    public List<Place> getPlaces(String filter) {
+        List<Place> places = new ArrayList<>();
+        repo.findAll().forEach(places::add);
+        if (isEmpty(filter)) {
+            return places;
         }
-        return this.placeFilter.filterBy(filter);
+        return this.placeFilter.filterBy(filter, places);
     }
 
     public Place getPlace(String name) {
-        return this.db.getPlace(name);
+        return this.repo.findById(name).orElse(null);
     }
 
-    public InMemoryDatabase getDb() {
-        return db;
+    public PlaceRepository getRepo() {
+        return repo;
     }
 
-    public void setDb(InMemoryDatabase db) {
-        this.db = db;
+    public void setRepo(PlaceRepository repo) {
+        this.repo = repo;
     }
 }
